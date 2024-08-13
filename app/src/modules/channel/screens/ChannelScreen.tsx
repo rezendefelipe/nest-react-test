@@ -78,9 +78,14 @@ const ChannelScreen = () => {
     form.setFieldValue('description', '')
   };
 
+  const openModalCreate = () => {
+    form.setFieldValue('id', 0)
+    open();
+  }
+
   return (
     <div>
-      <Button variant="filled" onClick={open}>Create Channel</Button>
+      <Button variant="filled" onClick={openModalCreate}>Create Channel</Button>
       <Table striped highlightOnHover withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>
