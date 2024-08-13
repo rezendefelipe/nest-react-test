@@ -1,6 +1,5 @@
 import { Table } from "@mantine/core";
 
-
 import { URL_ALL_CHANNELS } from "../../../shared/constants/urls.ts";
 import { useRequests } from "../../../shared/hooks/useRequests.ts";
 import { useEffect, useState } from "react";
