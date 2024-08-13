@@ -4,9 +4,10 @@ import { URL_CHANNELS } from "../../../shared/constants/urls.ts";
 import { useRequests } from "../../../shared/hooks/useRequests.ts";
 import { useEffect, useState } from "react";
 import { ChannelType } from "../types/ChannelType.ts";
-import { IconTrashFilled, IconEdit } from '@tabler/icons-react';
+import { IconEdit } from '@tabler/icons-react';
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
+import DeleteComponent from "../components/deleteComponent.tsx";
 
 
 const ChannelScreen = () => {
@@ -14,16 +15,10 @@ const ChannelScreen = () => {
   const [data, updateData] = useState<JSX.Element[]>();
   const [opened, { open, close }] = useDisclosure(false);
 
-  const handleDeleteChannel = async (id: number) => {
-    await deleteRequest(URL_CHANNELS, id);
-    getData();
-  }
-
   const handleEditChannel = (id: number, name: string, description?: string) => {
     form.setFieldValue('name', name);
     form.setFieldValue('description', description || '');
     form.setFieldValue('id', id)
-
     open();
   }
 
@@ -36,9 +31,7 @@ const ChannelScreen = () => {
           <Table.Td>{element.name}</Table.Td>
           <Table.Td>{element.description}</Table.Td>
           <Table.Td>
-            <ActionIcon variant="light" color="red" aria-label="Settings" onClick={() => handleDeleteChannel(element.id)}>
-              <IconTrashFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
-            </ActionIcon>
+            <DeleteComponent id={element.id} getData={getData} />
             <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
               <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
