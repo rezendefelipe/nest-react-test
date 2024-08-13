@@ -2,7 +2,13 @@
 api/dist
 api/node_modules
 api/build
+
+#database
 api/.db
+api/.db/sql
+*.db
+.DS_Store
+*.sqlite
 
 # Logs
 logs
