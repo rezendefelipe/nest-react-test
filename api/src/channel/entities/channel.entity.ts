@@ -9,5 +9,5 @@ export class ChannelEntity {
   name: string;
 
   @Column({ name: 'description', nullable: true })
-  description: string;
+  description?: string;
 }

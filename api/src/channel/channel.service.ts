@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChannelEntity } from './entities/channel.entity';
 import { Repository } from 'typeorm';
+import { CreateChannelDto } from './dto/createChannel.dto';
 
 @Injectable()
 export class ChannelService {
@@ -20,8 +21,10 @@ export class ChannelService {
     };
   }
 
-  createChannelService(channelData: any) {
-    return { ...channelData };
+  createChannelService(channelData: CreateChannelDto): Promise<ChannelEntity> {
+    return this.channelRepository.save({
+      ...channelData,
+    });
   }
 
   updateChannelService(id: number, channelData: any) {

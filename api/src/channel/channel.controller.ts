@@ -6,16 +6,23 @@ import {
   Param,
   Post,
   Put,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ChannelService } from './channel.service';
+import { CreateChannelDto } from './dto/createChannel.dto';
+import { ReturnChannellDto } from './dto/returnChannel.dto';
+import { ChannelEntity } from './entities/channel.entity';
 
 @Controller()
 export class ChannelController {
   constructor(private readonly channelService: ChannelService) {}
 
   @Get('/channels')
-  getAllChannels() {
-    return this.channelService.getAllChannelsService();
+  async getAllChannels(): Promise<ReturnChannellDto[]> {
+    return (await this.channelService.getAllChannelsService()).map(
+      (channel) => new ReturnChannellDto(channel),
+    );
   }
 
   @Get('/channels/:id')
@@ -24,7 +31,8 @@ export class ChannelController {
   }
 
   @Post('/channels')
-  createChannel(@Body() channelData: any) {
+  @UsePipes(ValidationPipe)
+  createChannel(@Body() channelData: CreateChannelDto): Promise<ChannelEntity> {
     return this.channelService.createChannelService(channelData);
   }
 
