@@ -42,7 +42,10 @@ export class ChannelService {
     };
   }
 
-  deleteChannelService(id: number) {
-    return { id };
+  async deleteChannelService(id: number) {
+    await this.getChannelsByIdService(id);
+    await this.channelRepository.delete(id);
+
+    return { message: 'Channel successfully deleted' };
   }
 }
