@@ -1,13 +1,17 @@
 // import { useState } from 'react'
 
 import ChannelScreen from "./modules"
+import { MantineProvider } from "@mantine/core";
+
 
 
 function App() {
   // const [count, setCount] = useState(0)
 
   return (
-    <ChannelScreen></ChannelScreen>
+    <MantineProvider>
+      <ChannelScreen></ChannelScreen>
+    </MantineProvider>
   )
 }
 
