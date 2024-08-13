@@ -24,6 +24,11 @@ module.exports = {
     amd: true,
     node: true,
   },
+  "overrides": [
+    {
+      "files": ["*.tsx", "*.ts"]
+    }
+  ],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',

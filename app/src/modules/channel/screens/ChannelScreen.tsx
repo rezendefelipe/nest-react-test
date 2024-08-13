@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Table, Modal, TextInput, Group } from "@mantine/core";
 
-import { URL_ALL_CHANNELS } from "../../../shared/constants/urls.ts";
+import { URL_CHANNELS } from "../../../shared/constants/urls.ts";
 import { useRequests } from "../../../shared/hooks/useRequests.ts";
 import { useEffect, useState } from "react";
 import { ChannelType } from "../types/ChannelType.ts";
@@ -10,21 +10,25 @@ import { useForm } from "@mantine/form";
 
 
 const ChannelScreen = () => {
-  const { getRequest, deleteRequest, postRequest } = useRequests();
+  const { getRequest, deleteRequest, postRequest, putRequest } = useRequests();
   const [data, updateData] = useState<JSX.Element[]>();
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleDeleteChannel = async (id: number) => {
-    await deleteRequest(URL_ALL_CHANNELS, id);
+    await deleteRequest(URL_CHANNELS, id);
     getData();
   }
 
-  const handleEditChannel = () => {
-    console.log('EDIT CHANNEL');
+  const handleEditChannel = (id: number, name: string, description?: string) => {
+    form.setFieldValue('name', name);
+    form.setFieldValue('description', description || '');
+    form.setFieldValue('id', id)
+
+    open();
   }
 
   const getData = async () => {
-    const resp = await getRequest<ChannelType[]>(URL_ALL_CHANNELS);
+    const resp = await getRequest<ChannelType[]>(URL_CHANNELS);
     if (resp) {
       const rows = resp.map((element: ChannelType) => (
         <Table.Tr key={element.id}>
@@ -35,7 +39,7 @@ const ChannelScreen = () => {
             <ActionIcon variant="light" color="red" aria-label="Settings" onClick={() => handleDeleteChannel(element.id)}>
               <IconTrashFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
-            <ActionIcon variant="light" aria-label="Settings" onClick={handleEditChannel}>
+            <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
               <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
           </Table.Td>
@@ -53,14 +57,22 @@ const ChannelScreen = () => {
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
+      id: 0,
       name: '',
       description: '',
     },
   });
 
-  const handleSaveChannel = async () => {
-    const dataChannel = form.getValues()
-    await postRequest(URL_ALL_CHANNELS, {...dataChannel});
+  const handleSaveOrEditChannel = async () => {
+    const dataChannel = form.getValues();
+    if (dataChannel.id) {
+      console.log('1', dataChannel);
+      
+      await putRequest(URL_CHANNELS, dataChannel.id, {...dataChannel});  
+    } else {
+      console.log('2', dataChannel);
+      await postRequest(URL_CHANNELS, {...dataChannel});
+    }
     getData().then(() => close());
     form.setFieldValue('name', '')
     form.setFieldValue('description', '')
@@ -95,7 +107,7 @@ const ChannelScreen = () => {
           {...form.getInputProps('description')}
         />
         <Group justify="center" mt="xl">
-          <Button onClick={handleSaveChannel}>
+          <Button onClick={handleSaveOrEditChannel}>
             Set random values
           </Button>
         </Group>

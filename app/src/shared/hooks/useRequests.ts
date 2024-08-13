@@ -1,4 +1,4 @@
-import { connectionAPIDelete, connectionAPIGet, connectionAPIPost } from '../functions/connections/connectionAPI';
+import { connectionAPIDelete, connectionAPIGet, connectionAPIPost, connectionAPIPut } from '../functions/connections/connectionAPI';
 
 export const useRequests = () => {
   const getRequest = async <T>(url: string): Promise<T | undefined> => {
@@ -17,6 +17,14 @@ export const useRequests = () => {
     }
   };
 
+  const putRequest = async <T>(url: string, id: number, body: unknown): Promise<T | undefined> => {
+    try {
+      return await connectionAPIPut<T>(`${url}/${id}`, body);
+    } catch (er) {
+      console.log(er);
+    }
+  };
+
   const deleteRequest = async <T>(url: string, id: number): Promise<T | undefined> => {
     try {
       return await connectionAPIDelete<T>(`${url}/${id}`);
@@ -28,6 +36,7 @@ export const useRequests = () => {
   return {
     getRequest,
     postRequest,
-    deleteRequest
+    deleteRequest,
+    putRequest
   };
 };

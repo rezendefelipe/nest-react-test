@@ -1,1 +1,1 @@
-export const URL_ALL_CHANNELS = 'http://localhost:3000/channels';
+export const URL_CHANNELS = 'http://localhost:3000/channels';
