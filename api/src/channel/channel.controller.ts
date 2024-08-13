@@ -26,8 +26,10 @@ export class ChannelController {
   }
 
   @Get('/channels/:id')
-  getChannelsById(@Param('id') id: number) {
-    return this.channelService.getChannelsByIdService(id);
+  async getChannelsById(@Param('id') id: number): Promise<ReturnChannellDto> {
+    return new ReturnChannellDto(
+      await this.channelService.getChannelsByIdService(id),
+    );
   }
 
   @Post('/channels')

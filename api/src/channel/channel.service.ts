@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChannelEntity } from './entities/channel.entity';
 import { Repository } from 'typeorm';
@@ -15,10 +15,18 @@ export class ChannelService {
     return this.channelRepository.find();
   }
 
-  getChannelsByIdService(id: number) {
-    return {
-      id,
-    };
+  async getChannelsByIdService(id: number): Promise<ChannelEntity> {
+    const channel = await this.channelRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!channel) {
+      throw new NotFoundException(`Channel not found!`);
+    }
+
+    return channel;
   }
 
   createChannelService(channelData: CreateChannelDto): Promise<ChannelEntity> {
