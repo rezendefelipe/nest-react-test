@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ChannelEntity } from './entities/channel.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ChannelService {
-  getAllChannelsService() {
-    return {
-      test: 'teste',
-    };
+  constructor(
+    @InjectRepository(ChannelEntity)
+    private readonly channelRepository: Repository<ChannelEntity>,
+  ) {}
+
+  getAllChannelsService(): Promise<ChannelEntity[]> {
+    return this.channelRepository.find();
   }
 
   getChannelsByIdService(id: number) {

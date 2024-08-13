@@ -1,10 +1,19 @@
 import { Module } from '@nestjs/common';
-import { ChannelController } from './channel/channel.controller';
-import { ChannelService } from './channel/channel.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ChannelModule } from './channel/channel.module';
 
 @Module({
-  imports: [],
-  controllers: [ChannelController],
-  providers: [ChannelService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: '.db/sql',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      migrations: [`${__dirname}/migrations/{.ts,*.js}`],
+      migrationsRun: true,
+    }),
+    ChannelModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
