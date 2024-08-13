@@ -10,7 +10,7 @@ import { useForm } from "@mantine/form";
 
 
 const ChannelScreen = () => {
-  const { getRequest, deleteRequest } = useRequests();
+  const { getRequest, deleteRequest, postRequest } = useRequests();
   const [data, updateData] = useState<JSX.Element[]>();
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -58,6 +58,14 @@ const ChannelScreen = () => {
     },
   });
 
+  const handleSaveChannel = async () => {
+    const dataChannel = form.getValues()
+    await postRequest(URL_ALL_CHANNELS, {...dataChannel});
+    getData().then(() => close());
+    form.setFieldValue('name', '')
+    form.setFieldValue('description', '')
+  };
+
   return (
     <div>
       <Button variant="filled" onClick={open}>Create Channel</Button>
@@ -87,7 +95,7 @@ const ChannelScreen = () => {
           {...form.getInputProps('description')}
         />
         <Group justify="center" mt="xl">
-          <Button onClick={() => {console.log('SAVE');}}>
+          <Button onClick={handleSaveChannel}>
             Set random values
           </Button>
         </Group>
