@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UsePipes,
@@ -26,7 +27,9 @@ export class ChannelController {
   }
 
   @Get('/channels/:id')
-  async getChannelsById(@Param('id') id: number): Promise<ReturnChannellDto> {
+  async getChannelsById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ReturnChannellDto> {
     return new ReturnChannellDto(
       await this.channelService.getChannelsByIdService(id),
     );
@@ -39,7 +42,10 @@ export class ChannelController {
   }
 
   @Put('/channels/:id')
-  updateChannel(@Param('id') id: number, @Body() channelData: any) {
+  updateChannel(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() channelData: any,
+  ) {
     return this.channelService.updateChannelService(id, channelData);
   }
 
