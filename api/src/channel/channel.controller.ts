@@ -14,6 +14,7 @@ import { ChannelService } from './channel.service';
 import { CreateChannelDto } from './dto/createChannel.dto';
 import { ReturnChannellDto } from './dto/returnChannel.dto';
 import { ChannelEntity } from './entities/channel.entity';
+import { UpdateChannelDto } from './dto/updateChannel.dto';
 
 @Controller()
 export class ChannelController {
@@ -42,11 +43,13 @@ export class ChannelController {
   }
 
   @Put('/channels/:id')
-  updateChannel(
+  async updateChannel(
     @Param('id', ParseIntPipe) id: number,
-    @Body() channelData: any,
-  ) {
-    return this.channelService.updateChannelService(id, channelData);
+    @Body() channelData: UpdateChannelDto,
+  ): Promise<ReturnChannellDto> {
+    return new ReturnChannellDto(
+      await this.channelService.updateChannelService(id, channelData),
+    );
   }
 
   @Delete('/channels/:id')
