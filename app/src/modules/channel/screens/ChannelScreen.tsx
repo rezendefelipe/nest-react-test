@@ -10,41 +10,43 @@ import { useForm } from "@mantine/form";
 
 
 const ChannelScreen = () => {
-  const { getRequest } = useRequests();
+  const { getRequest, deleteRequest } = useRequests();
   const [data, updateData] = useState<JSX.Element[]>();
   const [opened, { open, close }] = useDisclosure(false);
 
-  const handleDeleteChannel = () => {
-    console.log('DELETE CHANNEL');
+  const handleDeleteChannel = async (id: number) => {
+    await deleteRequest(URL_ALL_CHANNELS, id);
+    getData();
   }
 
   const handleEditChannel = () => {
     console.log('EDIT CHANNEL');
   }
 
-  useEffect(() => {
-    const getData = async () => {
-      const resp = await getRequest<ChannelType[]>(URL_ALL_CHANNELS);
-      if (resp) {
-        const rows = resp.map((element: ChannelType) => (
-          <Table.Tr key={element.id}>
-            <Table.Td>{element.id}</Table.Td>
-            <Table.Td>{element.name}</Table.Td>
-            <Table.Td>{element.description}</Table.Td>
-            <Table.Td>
-              <ActionIcon variant="light" color="red" aria-label="Settings" onClick={handleDeleteChannel}>
-                <IconTrashFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
-              </ActionIcon>
-              <ActionIcon variant="light" aria-label="Settings" onClick={handleEditChannel}>
-                <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
-              </ActionIcon>
-            </Table.Td>
-          </Table.Tr>
-        ));
+  const getData = async () => {
+    const resp = await getRequest<ChannelType[]>(URL_ALL_CHANNELS);
+    if (resp) {
+      const rows = resp.map((element: ChannelType) => (
+        <Table.Tr key={element.id}>
+          <Table.Td>{element.id}</Table.Td>
+          <Table.Td>{element.name}</Table.Td>
+          <Table.Td>{element.description}</Table.Td>
+          <Table.Td>
+            <ActionIcon variant="light" color="red" aria-label="Settings" onClick={() => handleDeleteChannel(element.id)}>
+              <IconTrashFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon variant="light" aria-label="Settings" onClick={handleEditChannel}>
+              <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+          </Table.Td>
+        </Table.Tr>
+      ));
 
-        updateData(rows)
-      }
+      updateData(rows)
     }
+  }
+
+  useEffect(() => {
     getData();
   }, []);
 
