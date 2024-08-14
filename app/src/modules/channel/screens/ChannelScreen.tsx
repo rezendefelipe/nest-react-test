@@ -1,25 +1,26 @@
-import { ActionIcon, Button, Table, Modal, TextInput, Group } from "@mantine/core";
+import { ActionIcon, Table } from "@mantine/core";
 
 import { URL_CHANNELS } from "../../../shared/constants/urls.ts";
 import { useRequests } from "../../../shared/hooks/useRequests.ts";
 import { useEffect, useState } from "react";
 import { ChannelType } from "../types/ChannelType.ts";
 import { IconEdit } from '@tabler/icons-react';
-import { useDisclosure } from "@mantine/hooks";
-import { useForm } from "@mantine/form";
+// import { useDisclosure } from "@mantine/hooks";
+// import { useForm } from "@mantine/form";
 import DeleteComponent from "../components/deleteComponent.tsx";
+import CustomModal from "../../../shared/components/CustomModal.tsx";
+import FormCreateChannel from "../../../shared/components/formCreateChannel.tsx";
 
 
 const ChannelScreen = () => {
-  const { getRequest, deleteRequest, postRequest, putRequest } = useRequests();
-  const [data, updateData] = useState<JSX.Element[]>();
-  const [opened, { open, close }] = useDisclosure(false);
+  const { getRequest, postRequest, putRequest } = useRequests();
+  const [data, setUpdateData] = useState<JSX.Element[]>();
 
   const handleEditChannel = (id: number, name: string, description?: string) => {
-    form.setFieldValue('name', name);
-    form.setFieldValue('description', description || '');
-    form.setFieldValue('id', id)
-    open();
+    // form.setFieldValue('name', name);
+    // form.setFieldValue('description', description || '');
+    // form.setFieldValue('id', id)
+    // open();
   }
 
   const getData = async () => {
@@ -39,7 +40,7 @@ const ChannelScreen = () => {
         </Table.Tr>
       ));
 
-      updateData(rows)
+      setUpdateData(rows)
     }
   }
 
@@ -47,38 +48,11 @@ const ChannelScreen = () => {
     getData();
   }, []);
 
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      id: 0,
-      name: '',
-      description: '',
-    },
-  });
-
-  const handleSaveOrEditChannel = async () => {
-    const dataChannel = form.getValues();
-    if (dataChannel.id) {
-      console.log('1', dataChannel);
-      
-      await putRequest(URL_CHANNELS, dataChannel.id, {...dataChannel});  
-    } else {
-      console.log('2', dataChannel);
-      await postRequest(URL_CHANNELS, {...dataChannel});
-    }
-    getData().then(() => close());
-    form.setFieldValue('name', '')
-    form.setFieldValue('description', '')
-  };
-
-  const openModalCreate = () => {
-    form.setFieldValue('id', 0)
-    open();
-  }
-
   return (
-    <div>
-      <Button variant="filled" onClick={openModalCreate}>Create Channel</Button>
+    <>
+      <CustomModal>
+        <FormCreateChannel getData={getData} />
+      </CustomModal>
       <Table striped highlightOnHover withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>
@@ -90,27 +64,7 @@ const ChannelScreen = () => {
         </Table.Thead>
         <Table.Tbody>{data}</Table.Tbody>
       </Table>
-      <Modal opened={opened} onClose={close} title="Authentication" centered>
-        <TextInput
-          label="Name"
-          placeholder="Name"
-          key={form.key('name')}
-          {...form.getInputProps('name')}
-        />
-        <TextInput
-          mt="md"
-          label="Description"
-          placeholder="Description"
-          key={form.key('description')}
-          {...form.getInputProps('description')}
-        />
-        <Group justify="center" mt="xl">
-          <Button onClick={handleSaveOrEditChannel}>
-            Set random values
-          </Button>
-        </Group>
-      </Modal>
-    </div>
+    </>
   );
 };
   
