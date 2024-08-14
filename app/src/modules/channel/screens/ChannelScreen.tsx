@@ -9,6 +9,7 @@ import CustomModal from "../../../shared/components/CustomModal.tsx";
 import FormCreateChannel from "../components/formChannel.tsx";
 import { useGlobalContext } from "../../../shared/hooks/useGlobalContext.tsx";
 import { IconEdit, IconEyeShare } from "@tabler/icons-react";
+import { useNavigate } from 'react-router-dom';
 
 
 const ChannelScreen = () => {
@@ -16,6 +17,7 @@ const ChannelScreen = () => {
   const [data, setUpdateData] = useState<JSX.Element[]>();
   const [editValues, setEditValues] = useState<{}>();
   const { setModalStatus } = useGlobalContext();
+  const navigator = useNavigate();
 
   const handleEditChannel = (id: number, name: string, description?: string) => {
     setEditValues({
@@ -26,9 +28,8 @@ const ChannelScreen = () => {
     setModalStatus(true)
   }
 
-  const handleViewChannel = () => {
-    console.log('handleView');
-    
+  const handleViewChannel = (id: number): void => {
+    navigator(`/view/${id}`);
   }
 
   const getData = async () => {
@@ -44,7 +45,7 @@ const ChannelScreen = () => {
             <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
               <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
-            <ActionIcon variant="light" aria-label="Settings" onClick={handleViewChannel}>
+            <ActionIcon variant="light" aria-label="Settings" onClick={() => handleViewChannel(element.id)}>
               <IconEyeShare style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
           </Table.Td>
