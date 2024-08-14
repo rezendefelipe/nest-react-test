@@ -16,9 +16,21 @@ const FormChannel = ({...props}) => {
             name: props.editValues.name ? props.editValues.name : '',
             description: props.editValues.description ? props.editValues.description : '',
         },
+        validate: {
+            name: (value) => {
+                const valid = false
+
+                if (!value.length) return 'Name is required';
+                if (value.length < 2) return 'First name is too short';
+
+                return valid;
+            },
+        },
     });
 
     const handleSaveOrEditChannel = async () => {
+        if (form.validate().hasErrors) return;
+        
         const dataChannel = form.getValues();
         if (props.editValues.id) {
             await putRequest(URL_CHANNELS, props.editValues.id, {...dataChannel});
