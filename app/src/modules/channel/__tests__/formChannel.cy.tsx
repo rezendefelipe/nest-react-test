@@ -2,7 +2,7 @@
 
 import { MantineProvider } from '@mantine/core';
 import { URL_CHANNELS } from "../../../shared/constants/urls";
-import FormChannel from './formChannel';
+import FormChannel from '../components/formChannel';
 import { MemoryRouter } from 'react-router-dom';
 import { GlobalProvider } from '../../../shared/hooks/useGlobalContext';
 
