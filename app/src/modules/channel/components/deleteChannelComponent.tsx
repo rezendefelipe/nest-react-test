@@ -3,7 +3,7 @@ import { IconTrashFilled } from "@tabler/icons-react"
 import { useRequests } from "../../../shared/hooks/useRequests";
 import { URL_CHANNELS } from "../../../shared/constants/urls";
 
-const DeleteComponent = ({...props}) => {
+const DeleteChannelComponent = ({...props}) => {
     const { deleteRequest } = useRequests();
 
     const handleDeleteChannel = async () => {
@@ -18,4 +18,4 @@ const DeleteComponent = ({...props}) => {
     )
 }
 
-export default DeleteComponent
+export default DeleteChannelComponent

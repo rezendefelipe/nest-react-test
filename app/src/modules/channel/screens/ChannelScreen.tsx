@@ -1,26 +1,29 @@
-import { ActionIcon, Table } from "@mantine/core";
+import { ActionIcon, Button, Table } from "@mantine/core";
 
 import { URL_CHANNELS } from "../../../shared/constants/urls.ts";
 import { useRequests } from "../../../shared/hooks/useRequests.ts";
 import { useEffect, useState } from "react";
 import { ChannelType } from "../types/ChannelType.ts";
-import { IconEdit } from '@tabler/icons-react';
-// import { useDisclosure } from "@mantine/hooks";
-// import { useForm } from "@mantine/form";
-import DeleteComponent from "../components/deleteComponent.tsx";
+import DeleteComponent from "../components/deleteChannelComponent.tsx";
 import CustomModal from "../../../shared/components/CustomModal.tsx";
-import FormCreateChannel from "../../../shared/components/formCreateChannel.tsx";
+import FormCreateChannel from "../components/formChannel.tsx";
+import { useGlobalContext } from "../../../shared/hooks/useGlobalContext.tsx";
+import { IconEdit } from "@tabler/icons-react";
 
 
 const ChannelScreen = () => {
-  const { getRequest, postRequest, putRequest } = useRequests();
+  const { getRequest } = useRequests();
   const [data, setUpdateData] = useState<JSX.Element[]>();
+  const [editValues, setEditValues] = useState<{}>();
+  const { setModalStatus } = useGlobalContext();
 
   const handleEditChannel = (id: number, name: string, description?: string) => {
-    // form.setFieldValue('name', name);
-    // form.setFieldValue('description', description || '');
-    // form.setFieldValue('id', id)
-    // open();
+    setEditValues({
+      name: name,
+      id: id,
+      description: description ? description : "",
+    });
+    setModalStatus(true)
   }
 
   const getData = async () => {
@@ -48,11 +51,17 @@ const ChannelScreen = () => {
     getData();
   }, []);
 
+  const openModalCreateChannel = () => {
+    setEditValues({});
+    setModalStatus(true);
+  }
+
   return (
     <>
       <CustomModal>
-        <FormCreateChannel getData={getData} />
+        <FormCreateChannel editValues={editValues} getData={getData} />
       </CustomModal>
+      <Button variant="filled" onClick={openModalCreateChannel}>Create Channel</Button>
       <Table striped highlightOnHover withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>

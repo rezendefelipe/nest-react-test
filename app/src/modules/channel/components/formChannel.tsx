@@ -1,25 +1,30 @@
 import { Button, Group, TextInput } from "@mantine/core";
-import { useRequests } from "../hooks/useRequests";
-import { URL_CHANNELS } from "../constants/urls";
+import { useRequests } from "../../../shared/hooks/useRequests";
+import { URL_CHANNELS } from "../../../shared/constants/urls";
 import { useForm } from "@mantine/form";
-import { useGlobalContext } from "../hooks/useGlobalContext";
+import { useGlobalContext } from "../../../shared/hooks/useGlobalContext";
 
-const FormCreateChannel = ({...props}) => {
+const FormChannel = ({...props}) => {
 
-    const { postRequest } = useRequests();
+    const { postRequest, putRequest } = useRequests();
     const { setModalStatus } = useGlobalContext();
 
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
-          name: '',
-          description: '',
+            id: props.editValues.id ? props.editValues.id : null,
+            name: props.editValues.name ? props.editValues.name : '',
+            description: props.editValues.description ? props.editValues.description : '',
         },
     });
 
     const handleSaveOrEditChannel = async () => {
         const dataChannel = form.getValues();
-        await postRequest(URL_CHANNELS, {...dataChannel});
+        if (props.editValues.id) {
+            await putRequest(URL_CHANNELS, props.editValues.id, {...dataChannel});
+        } else {
+            await postRequest(URL_CHANNELS, {...dataChannel});
+        }
         setModalStatus(false);
         form.setFieldValue('name', '')
         form.setFieldValue('description', '')
@@ -50,4 +55,4 @@ const FormCreateChannel = ({...props}) => {
     )
 }
 
-export default FormCreateChannel;
+export default FormChannel;

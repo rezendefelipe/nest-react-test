@@ -10,15 +10,11 @@ const CustomModal = ({children}: any) => {
     useEffect(() => {
         modalStatus ? open() : close();
     }, [modalStatus])
-    
-
-    const openModal = () => setModalStatus(true)
 
     const closeModal = () => setModalStatus(false)
 
     return (
         <>
-            <Button variant="filled" onClick={openModal}>Create Channel</Button>
             <Modal opened={opened} onClose={closeModal} title="Create Channel" centered>
                 { children }
             </Modal>
