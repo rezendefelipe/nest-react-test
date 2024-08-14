@@ -20,5 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "postcss.config.cjs"]
+  "include": ["src", "cypress", "postcss.config.cjs"],
+  "type": "module"
 }

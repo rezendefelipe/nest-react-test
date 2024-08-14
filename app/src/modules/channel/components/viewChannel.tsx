@@ -43,18 +43,18 @@ const ViewChannel = () => {
                 <>
                     {
                         loading
-                        ? <Group justify="center"><Loader color="blue" /></Group>
+                        ? <Group justify="center"><Loader color="blue" data-testid="loader"/></Group>
                         : <Card withBorder p="xl" radius="md">
                             <div className={classes.inner}>
                                 <div>
-                                <Text fz="xl" className={classes.label}>
-                                    Name: {data ? <>{data.name}</> : null }
-                                </Text>
-                                <div>
-                                    <Text fz="xs" c="dimmed">
-                                        Description: {data ? <>{data.description}</> : null }
+                                    <Text fz="xl" data-testid="name" className={classes.label}>
+                                        Name: {data ? <>{data.name}</> : null }
                                     </Text>
-                                </div>
+                                    <div>
+                                        <Text fz="xs" c="dimmed">
+                                            Description: {data ? <>{data.description}</> : null }
+                                        </Text>
+                                    </div>
                                 </div>
                             </div>
                         </Card>
