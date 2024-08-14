@@ -1,20 +1,31 @@
-import { ActionIcon } from "@mantine/core"
+import { ActionIcon, Button, Group, Modal, Text } from "@mantine/core"
 import { IconTrashFilled } from "@tabler/icons-react"
 import { useRequests } from "../../../shared/hooks/useRequests";
 import { URL_CHANNELS } from "../../../shared/constants/urls";
+import { useDisclosure } from "@mantine/hooks";
 
 const DeleteChannelComponent = ({...props}) => {
     const { deleteRequest } = useRequests();
+    const [opened, { open, close }] = useDisclosure(false);
 
-    const handleDeleteChannel = async () => {
+    const confirmDelete = async () => {
         await deleteRequest(URL_CHANNELS, props.id);
         props.getData();
     }
 
     return (
-        <ActionIcon variant="light" color="red" aria-label="Settings" onClick={() => handleDeleteChannel()}>
-            <IconTrashFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
-        </ActionIcon>
+        <>
+            <Modal opened={opened} onClose={close} title="Delete Channel" centered>
+                <Text>Are you sure to delete this item?</Text>
+                <Group mt="xl" justify="space-between">
+                    <Button variant="primary" onClick={() => close()}>Cancelar</Button>
+                    <Button variant="filled" onClick={() => confirmDelete()} color="red">Confirm</Button>
+                </Group>
+            </Modal>
+            <ActionIcon variant="light" color="red" aria-label="Settings" onClick={open}>
+                <IconTrashFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+        </>
     )
 }
 
