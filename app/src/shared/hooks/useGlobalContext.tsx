@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 interface GlobalData {
     modalStatus?: boolean;
+    searchText?: string
 }
 
 interface GlobalContextProps {
@@ -34,8 +35,17 @@ export const useGlobalContext = () => {
     });
   };
 
+  const setSearchText = (text: string) => {
+    setglobalData({
+      ...globalData,
+      searchText: text
+    });
+  };
+
   return {
     setModalStatus,
+    setSearchText,
+    searchText: globalData?.searchText,
     modalStatus: globalData?.modalStatus,
   };
 };

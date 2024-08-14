@@ -18,10 +18,11 @@ import classes from '../styles/TableScrollArea.module.css';
 const ChannelScreen = () => {
   const { getRequest } = useRequests();
   const [data, setUpdateData] = useState<JSX.Element[]>();
+  const [dataResp, setDataResp] = useState<ChannelType[]>();
   const [editValues, setEditValues] = useState<{}>();
   const [scrolled, setScrolled] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { setModalStatus } = useGlobalContext();
+  const { setModalStatus, searchText } = useGlobalContext();
   const navigator = useNavigate();
 
   const handleEditChannel = (id: number, name: string, description?: string) => {
@@ -37,29 +38,34 @@ const ChannelScreen = () => {
     navigator(`/view/${id}`);
   }
 
+  const makeTableRows = (data: any) => {
+    const rows = data.map((element: ChannelType) => (
+      <Table.Tr key={element.id}>
+        <Table.Td>{element.id}</Table.Td>
+        <Table.Td>{element.name}</Table.Td>
+        <Table.Td>{element.description}</Table.Td>
+        <Table.Td>
+          <Group justify="center">
+            <DeleteComponent id={element.id} getData={getData} />
+            <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
+              <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon variant="light" color="yellow" aria-label="Settings" onClick={() => handleViewChannel(element.id)}>
+              <IconEyeShare style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+          </Group>
+        </Table.Td>
+      </Table.Tr>
+    ));
+
+    setUpdateData(rows)
+  }
+
   const getData = async () => {
     const resp = await getRequest<ChannelType[]>(URL_CHANNELS);
     if (resp) {
-      const rows = resp.map((element: ChannelType) => (
-        <Table.Tr key={element.id}>
-          <Table.Td>{element.id}</Table.Td>
-          <Table.Td>{element.name}</Table.Td>
-          <Table.Td>{element.description}</Table.Td>
-          <Table.Td>
-            <Group justify="center">
-              <DeleteComponent id={element.id} getData={getData} />
-              <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
-                <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
-              </ActionIcon>
-              <ActionIcon variant="light" color="yellow" aria-label="Settings" onClick={() => handleViewChannel(element.id)}>
-                <IconEyeShare style={{ width: '70%', height: '70%' }} stroke={1.5} />
-              </ActionIcon>
-            </Group>
-          </Table.Td>
-        </Table.Tr>
-      ));
-
-      setUpdateData(rows)
+      setDataResp(resp);
+      makeTableRows(resp);
     }
   }
 
@@ -67,6 +73,16 @@ const ChannelScreen = () => {
     getData();
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (searchText) {
+      const filtered = dataResp?.filter((item) => {
+        if (item.name.includes(searchText) || item.description?.includes(searchText)) return item
+      } )
+      return makeTableRows(filtered);
+    }
+    makeTableRows(dataResp);
+  }, [searchText]);
 
   const openModalCreateChannel = () => {
     setEditValues({});
