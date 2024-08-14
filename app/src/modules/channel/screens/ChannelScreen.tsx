@@ -1,4 +1,4 @@
-import { ActionIcon, Button, ScrollArea, Table } from "@mantine/core";
+import { ActionIcon, Button, Container, Group, ScrollArea, Space, Table } from "@mantine/core";
 
 import { URL_CHANNELS } from "../../../shared/constants/urls.ts";
 import { useRequests } from "../../../shared/hooks/useRequests.ts";
@@ -45,13 +45,15 @@ const ChannelScreen = () => {
           <Table.Td>{element.name}</Table.Td>
           <Table.Td>{element.description}</Table.Td>
           <Table.Td>
-            <DeleteComponent id={element.id} getData={getData} />
-            <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
-              <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
-            </ActionIcon>
-            <ActionIcon variant="light" aria-label="Settings" onClick={() => handleViewChannel(element.id)}>
-              <IconEyeShare style={{ width: '70%', height: '70%' }} stroke={1.5} />
-            </ActionIcon>
+            <Group justify="center">
+              <DeleteComponent id={element.id} getData={getData} />
+              <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
+                <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
+              </ActionIcon>
+              <ActionIcon variant="light" color="yellow" aria-label="Settings" onClick={() => handleViewChannel(element.id)}>
+                <IconEyeShare style={{ width: '70%', height: '70%' }} stroke={1.5} />
+              </ActionIcon>
+            </Group>
           </Table.Td>
         </Table.Tr>
       ));
@@ -74,20 +76,23 @@ const ChannelScreen = () => {
       <CustomModal>
         <FormCreateChannel editValues={editValues} getData={getData} />
       </CustomModal>
-      <ScrollArea h={500} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+      <Container>
         <Button variant="filled" onClick={openModalCreateChannel}>Create Channel</Button>
-        <Table miw={700} striped highlightOnHover withTableBorder withColumnBorders>
-          <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
-            <Table.Tr>
-              <Table.Th>Id</Table.Th>
-              <Table.Th>Channel Name</Table.Th>
-              <Table.Th>Channel Description</Table.Th>
-              <Table.Th>Actions</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{data}</Table.Tbody>
-        </Table>
-      </ScrollArea>
+        <Space h="xl" />
+        <ScrollArea h={500} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+          <Table miw={700} striped highlightOnHover withTableBorder withColumnBorders>
+            <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+              <Table.Tr>
+                <Table.Th>Id</Table.Th>
+                <Table.Th>Channel Name</Table.Th>
+                <Table.Th>Channel Description</Table.Th>
+                <Table.Th>Actions</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{data}</Table.Tbody>
+          </Table>
+        </ScrollArea>
+      </Container>
     </>
   );
 };

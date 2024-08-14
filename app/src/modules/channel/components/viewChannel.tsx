@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ChannelType } from "../types/ChannelType";
 import { URL_CHANNELS } from "../../../shared/constants/urls";
 import { useRequests } from "../../../shared/hooks/useRequests";
-import { Text, Card, Button } from '@mantine/core';
+import { Text, Card, Button, Container, Space } from '@mantine/core';
 import classes from '../styles/cardView.module.css';
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useNavigate } from 'react-router-dom';
@@ -29,27 +29,30 @@ const ViewChannel = () => {
 
     return (
         <>
-            <Button
-                variant="light"
-                leftSection={<IconArrowLeft size={14} />}
-                onClick={handleGoBack}
-            >
-                Go Back
-            </Button>
-            <Card withBorder p="xl" radius="md">
-                <div className={classes.inner}>
-                    <div>
-                    <Text fz="xl" className={classes.label}>
-                        Name: {data ? <>{data.name}</> : null }
-                    </Text>
-                    <div>
-                        <Text fz="xs" c="dimmed">
-                            Description: {data ? <>{data.description}</> : null }
+            <Container>
+                <Button
+                    variant="light"
+                    leftSection={<IconArrowLeft size={14} />}
+                    onClick={handleGoBack}
+                >
+                    Go Back
+                </Button>
+                <Space h="xl" />
+                <Card withBorder p="xl" radius="md">
+                    <div className={classes.inner}>
+                        <div>
+                        <Text fz="xl" className={classes.label}>
+                            Name: {data ? <>{data.name}</> : null }
                         </Text>
+                        <div>
+                            <Text fz="xs" c="dimmed">
+                                Description: {data ? <>{data.description}</> : null }
+                            </Text>
+                        </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
-            </Card>
+                </Card>
+            </Container>
         </>
     )
 }
