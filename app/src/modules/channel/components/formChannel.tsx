@@ -22,7 +22,7 @@ const FormChannel = ({...props}) => {
                 const valid = false
 
                 if (!value.length) return 'Name is required';
-                if (value.length < 2) return 'First name is too short';
+                if (value.length < 2) return 'Name is too short';
 
                 return valid;
             },
