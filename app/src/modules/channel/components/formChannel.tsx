@@ -3,6 +3,7 @@ import { useRequests } from "../../../shared/hooks/useRequests";
 import { URL_CHANNELS } from "../../../shared/constants/urls";
 import { useForm } from "@mantine/form";
 import { useGlobalContext } from "../../../shared/hooks/useGlobalContext";
+import { notifications } from "@mantine/notifications";
 
 const FormChannel = ({...props}) => {
 
@@ -34,8 +35,16 @@ const FormChannel = ({...props}) => {
         const dataChannel = form.getValues();
         if (props.editValues.id) {
             await putRequest(URL_CHANNELS, props.editValues.id, {...dataChannel});
+            notifications.show({
+                title: 'Channel edited.',
+                message: '',
+            })
         } else {
             await postRequest(URL_CHANNELS, {...dataChannel});
+            notifications.show({
+                title: 'Channel created.',
+                message: '',
+            })
         }
         setModalStatus(false);
         form.setFieldValue('name', '')
@@ -58,8 +67,11 @@ const FormChannel = ({...props}) => {
                 key={form.key('description')}
                 {...form.getInputProps('description')}
             />
-            <Group justify="center" mt="xl">
-                <Button onClick={handleSaveOrEditChannel}>
+            <Group justify="space-between" mt="xl">
+                <Button onClick={() => setModalStatus(false)}>
+                    Cancel
+                </Button>
+                <Button color="green" onClick={handleSaveOrEditChannel}>
                     Save
                 </Button>
             </Group>

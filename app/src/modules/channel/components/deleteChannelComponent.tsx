@@ -3,6 +3,7 @@ import { IconTrashFilled } from "@tabler/icons-react"
 import { useRequests } from "../../../shared/hooks/useRequests";
 import { URL_CHANNELS } from "../../../shared/constants/urls";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 
 const DeleteChannelComponent = ({...props}) => {
     const { deleteRequest } = useRequests();
@@ -10,6 +11,10 @@ const DeleteChannelComponent = ({...props}) => {
 
     const confirmDelete = async () => {
         await deleteRequest(URL_CHANNELS, props.id);
+        notifications.show({
+            title: 'Channel deleted.',
+            message: '',
+        })
         props.getData();
     }
 
