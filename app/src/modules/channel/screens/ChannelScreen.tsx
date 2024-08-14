@@ -38,7 +38,7 @@ const ChannelScreen = () => {
     navigator(`/view/${id}`);
   }
 
-  const makeTableRows = (data: any) => {
+  const makeTableRows = (data: ChannelType[]) => {
     if (!data) return;
 
     const rows = data.map((element: ChannelType) => (
@@ -81,9 +81,10 @@ const ChannelScreen = () => {
       const filtered = dataResp?.filter((item) => {
         if (item.name.includes(searchText) || item.description?.includes(searchText)) return item
       } )
-      return makeTableRows(filtered);
+      if (filtered) return makeTableRows(filtered);
+      return;
     }
-    makeTableRows(dataResp);
+    if(dataResp) makeTableRows(dataResp);
   }, [searchText]);
 
   const openModalCreateChannel = () => {

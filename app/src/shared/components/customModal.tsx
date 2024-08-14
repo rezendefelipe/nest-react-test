@@ -3,7 +3,11 @@ import { useDisclosure } from "@mantine/hooks";
 import { useGlobalContext } from "../hooks/useGlobalContext";
 import { useEffect } from "react";
 
-const CustomModal = (children: JSX.Element) => {
+interface CustomModalProps {
+    children: React.ReactNode; // Use React.ReactNode para permitir qualquer conteúdo
+}
+
+const CustomModal: React.FC<CustomModalProps> = ({children}) => {
     const [opened, { open, close }] = useDisclosure(false);
     const { modalStatus, setModalStatus } = useGlobalContext();
 
