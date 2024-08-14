@@ -8,7 +8,7 @@ import DeleteComponent from "../components/deleteChannelComponent.tsx";
 import CustomModal from "../../../shared/components/CustomModal.tsx";
 import FormCreateChannel from "../components/formChannel.tsx";
 import { useGlobalContext } from "../../../shared/hooks/useGlobalContext.tsx";
-import { IconEdit } from "@tabler/icons-react";
+import { IconEdit, IconEyeShare } from "@tabler/icons-react";
 
 
 const ChannelScreen = () => {
@@ -26,6 +26,11 @@ const ChannelScreen = () => {
     setModalStatus(true)
   }
 
+  const handleViewChannel = () => {
+    console.log('handleView');
+    
+  }
+
   const getData = async () => {
     const resp = await getRequest<ChannelType[]>(URL_CHANNELS);
     if (resp) {
@@ -38,6 +43,9 @@ const ChannelScreen = () => {
             <DeleteComponent id={element.id} getData={getData} />
             <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
               <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon variant="light" aria-label="Settings" onClick={handleViewChannel}>
+              <IconEyeShare style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
           </Table.Td>
         </Table.Tr>
