@@ -29,22 +29,33 @@ const FormChannel = ({...props}) => {
         },
     });
 
+    const notificationMesage = (title: string, message: string, color?: string) => {
+        notifications.show({
+            title: title,
+            message: message,
+            color
+        })
+    }
+
     const handleSaveOrEditChannel = async () => {
         if (form.validate().hasErrors) return;
         
         const dataChannel = form.getValues();
         if (props.editValues.id) {
-            await putRequest(URL_CHANNELS, props.editValues.id, {...dataChannel});
-            notifications.show({
-                title: 'Channel edited.',
-                message: '',
-            })
+            const resp = await putRequest(URL_CHANNELS, props.editValues.id, {...dataChannel});
+            if (resp) {
+                notificationMesage('Channel edited.','');
+            } else {
+                notificationMesage('Error on edit', 'Could not edit channel', 'red');
+            }
         } else {
-            await postRequest(URL_CHANNELS, {...dataChannel});
-            notifications.show({
-                title: 'Channel created.',
-                message: '',
-            })
+            const resp = await postRequest(URL_CHANNELS, {...dataChannel});
+            if (resp) {
+                notificationMesage('Channel created.','');
+            } else {
+                notificationMesage('Error on create', 'Could not save channel', 'red');
+            }
+            
         }
         setModalStatus(false);
         form.setFieldValue('name', '')
