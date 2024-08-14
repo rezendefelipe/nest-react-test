@@ -39,6 +39,8 @@ const ChannelScreen = () => {
   }
 
   const makeTableRows = (data: any) => {
+    if (!data) return;
+
     const rows = data.map((element: ChannelType) => (
       <Table.Tr key={element.id}>
         <Table.Td>{element.id}</Table.Td>
