@@ -5,7 +5,7 @@ export const useRequests = () => {
     try {
       return await connectionAPIGet<T>(url);
     } catch (er) {
-      console.log(er);
+      console.error(er);
     }
   };
 
@@ -13,7 +13,7 @@ export const useRequests = () => {
     try {
       return await connectionAPIPost<T>(url, body);
     } catch (er) {
-      console.log(er);
+      console.error(er);
     }
   };
 
@@ -21,7 +21,7 @@ export const useRequests = () => {
     try {
       return await connectionAPIPut<T>(`${url}/${id}`, body);
     } catch (er) {
-      console.log(er);
+      console.error(er);
     }
   };
 
@@ -29,7 +29,7 @@ export const useRequests = () => {
     try {
       return await connectionAPIDelete<T>(`${url}/${id}`);
     } catch (er) {
-      console.log(er);
+      console.error(er);
     }
   };
 
