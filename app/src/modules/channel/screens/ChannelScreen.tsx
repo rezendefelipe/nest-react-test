@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Container, Group, ScrollArea, Space, Table } from "@mantine/core";
+import { ActionIcon, Button, Container, Group, Loader, ScrollArea, Space, Table } from "@mantine/core";
 
 import { URL_CHANNELS } from "../../../shared/constants/urls.ts";
 import { useRequests } from "../../../shared/hooks/useRequests.ts";
@@ -20,6 +20,7 @@ const ChannelScreen = () => {
   const [data, setUpdateData] = useState<JSX.Element[]>();
   const [editValues, setEditValues] = useState<{}>();
   const [scrolled, setScrolled] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { setModalStatus } = useGlobalContext();
   const navigator = useNavigate();
 
@@ -64,6 +65,7 @@ const ChannelScreen = () => {
 
   useEffect(() => {
     getData();
+    setLoading(false);
   }, []);
 
   const openModalCreateChannel = () => {
@@ -79,19 +81,25 @@ const ChannelScreen = () => {
       <Container>
         <Button variant="filled" onClick={openModalCreateChannel}>Create Channel</Button>
         <Space h="xl" />
-        <ScrollArea h={500} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
-          <Table miw={700} striped highlightOnHover withTableBorder withColumnBorders>
-            <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
-              <Table.Tr>
-                <Table.Th>Id</Table.Th>
-                <Table.Th>Channel Name</Table.Th>
-                <Table.Th>Channel Description</Table.Th>
-                <Table.Th>Actions</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{data}</Table.Tbody>
-          </Table>
-        </ScrollArea>
+        <>
+          {
+            loading
+            ? <Group justify="center"><Loader color="blue" /></Group>
+            : <ScrollArea h={500} onScrollPositionChange={({ y }) => setScrolled(y !== 0)}>
+                <Table miw={700} striped highlightOnHover withTableBorder withColumnBorders>
+                  <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
+                    <Table.Tr>
+                      <Table.Th>Id</Table.Th>
+                      <Table.Th>Channel Name</Table.Th>
+                      <Table.Th>Channel Description</Table.Th>
+                      <Table.Th>Actions</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>{data}</Table.Tbody>
+                </Table>
+              </ScrollArea>
+          }
+        </>
       </Container>
     </>
   );
