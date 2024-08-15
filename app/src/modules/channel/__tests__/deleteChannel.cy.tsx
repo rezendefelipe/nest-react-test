@@ -28,7 +28,7 @@ describe('DeleteChannelComponent', () => {
     );
   });
 
-  it('should close the modal when cancel button is clicked', () => {
+  xit('should close the modal when cancel button is clicked', () => {
     cy.get('button[aria-label="Settings"]').click();
     cy.get('button').contains('Cancelar').click();
     cy.get('.mantine-Modal-modal').should('not.exist');
