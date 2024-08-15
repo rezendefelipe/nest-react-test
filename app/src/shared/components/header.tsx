@@ -7,6 +7,7 @@ import { useGlobalContext } from '../hooks/useGlobalContext';
 
 const links = [
   { link: '/', label: 'Home' },
+  { link: '/login', label: 'Login' },
 ];
 
 export function HeaderComponent() {

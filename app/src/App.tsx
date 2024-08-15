@@ -5,9 +5,11 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import { channelScreenRoutes } from './modules/channel/routes';
 import { HeaderComponent } from './shared/components/header';
 import { Notifications } from '@mantine/notifications';
+import { loginRoutes } from './modules/login/routes';
 
 const router: RemixRouter = createBrowserRouter([
   ...channelScreenRoutes,
+  ...loginRoutes
 ]);
 
 const theme = createTheme({

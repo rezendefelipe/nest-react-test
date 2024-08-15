@@ -1,6 +1,12 @@
+import { AuthType } from '../../modules/login/types/AuthType';
+import { URL_AUTH } from '../constants/urls';
 import { connectionAPIDelete, connectionAPIGet, connectionAPIPost, connectionAPIPut } from '../functions/connections/connectionAPI';
+import { useNavigate } from 'react-router-dom';
+import { notifications } from "@mantine/notifications";
 
 export const useRequests = () => {
+  const navigator = useNavigate();
+
   const getRequest = async <T>(url: string): Promise<T | undefined> => {
     try {
       return await connectionAPIGet<T>(url);
@@ -33,10 +39,31 @@ export const useRequests = () => {
     }
   };
 
+  const authRequest = async (body: unknown): Promise<void> => {
+    try {
+      const resp = await connectionAPIPost<AuthType>(URL_AUTH, body);
+
+      // setAuthorizationToken(resp.accessToken);
+      console.log(resp)
+      notifications.show({
+        title: 'User Logged.',
+        message: '',
+      })
+      navigator('/');
+    } catch (error: unknown) {
+      notifications.show({
+        title: 'Error on Login.',
+        message: '',
+        color: 'red'
+      })
+    }
+  };
+
   return {
     getRequest,
     postRequest,
     deleteRequest,
-    putRequest
+    putRequest,
+    authRequest
   };
 };
