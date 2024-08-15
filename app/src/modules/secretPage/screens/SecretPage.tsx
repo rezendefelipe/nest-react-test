@@ -23,6 +23,7 @@ const SecretPage = () => {
     }
 
     useEffect(() => {
+        // TO-DO protext routes on isolated Component to be reused
         const token = getAuthorizationToken();
     
         if (token) {
