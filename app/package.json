@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "cy:open": "cypress run",
+    "e2e:chrome": "cypress run --browser chrome"
   },
   "dependencies": {
     "@mantine/carousel": "^7.12.1",
