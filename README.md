@@ -55,26 +55,25 @@ npm run dev
 
 Go to a web browser and open `http://localhost:5173/`.
 
-<!-- ## Tests
+## Tests BE
 
-Run `npm run test:frontend:unit` to run the frontend unit tests.
+Run:
 
-Run `npm run test:api:with:servers` to run the API tests.
+```sh
+cd api
+npm install
+npm run test:cov
+```
 
-> **Note:** These scripts starts the required servers before-hand, and shuts them down when tests finish running.
+## Tests FE E2E
 
-Run `npm run test:frontend:with:server` to run the UI tests in headless mode.
+> **Note 2:** This script needs to BE and FE servers up and runing.
 
-> **Note 2:** This script starts the frontend server before-hand, and shuts it down when tests finish running.
->
-> **Note 3:** When running in headless mode, if tests fail, Cypress automatically saves screenshots of the failures at `cypress/screenshots/`.
+Run:
 
-### Interactive mode
-
-1. Run `npm run cy:open:with:servers` to open the Cypress Test Runner to run tests in interactive mode.
-
-> **Note 4:** This script starts the required servers before-hand, and shuts them down after the runner is closed.
-
-2. With the test runner opened, click on the test file you want to test.
-
-___ -->
+```sh
+cd app
+npm install
+npm run cy:run
+```
+___
