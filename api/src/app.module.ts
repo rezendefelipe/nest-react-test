@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ChannelModule } from './channel/channel.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ChannelModule } from './channel/channel.module';
       migrationsRun: true,
     }),
     ChannelModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
