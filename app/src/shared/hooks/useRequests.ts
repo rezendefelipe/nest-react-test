@@ -1,8 +1,9 @@
 import { AuthType } from '../../modules/login/types/AuthType';
-import { URL_AUTH } from '../constants/urls';
+import { URL_AUTH, URL_USER } from '../constants/urls';
 import { connectionAPIDelete, connectionAPIGet, connectionAPIPost, connectionAPIPut } from '../functions/connections/connectionAPI';
 import { useNavigate } from 'react-router-dom';
 import { notifications } from "@mantine/notifications";
+import { UserTypeCreate } from '../../modules/login/types/UserTypeCreate';
 
 export const useRequests = () => {
   const navigator = useNavigate();
@@ -55,7 +56,27 @@ export const useRequests = () => {
         title: 'Error on Login.',
         message: '',
         color: 'red'
+      });
+    }
+  };
+
+  const createUserRequest = async (body: unknown): Promise<void> => {
+    try {
+      const resp = await connectionAPIPost<UserTypeCreate>(URL_USER, body);
+
+      // setAuthorizationToken(resp.accessToken);
+      console.log(resp)
+      notifications.show({
+        title: 'User Logged.',
+        message: '',
       })
+      navigator('/');
+    } catch (error: unknown) {
+      notifications.show({
+        title: 'Error on Create User.',
+        message: '',
+        color: 'red'
+      });
     }
   };
 
@@ -64,6 +85,7 @@ export const useRequests = () => {
     postRequest,
     deleteRequest,
     putRequest,
-    authRequest
+    authRequest,
+    createUserRequest
   };
 };

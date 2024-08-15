@@ -6,10 +6,12 @@ import { channelScreenRoutes } from './modules/channel/routes';
 import { HeaderComponent } from './shared/components/header';
 import { Notifications } from '@mantine/notifications';
 import { loginRoutes } from './modules/login/routes';
+import { createUserRoutes } from './modules/createUser/routes';
 
 const router: RemixRouter = createBrowserRouter([
   ...channelScreenRoutes,
-  ...loginRoutes
+  ...loginRoutes,
+  ...createUserRoutes
 ]);
 
 const theme = createTheme({
