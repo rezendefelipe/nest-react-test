@@ -4,9 +4,12 @@ import { connectionAPIDelete, connectionAPIGet, connectionAPIPost, connectionAPI
 import { useNavigate } from 'react-router-dom';
 import { notifications } from "@mantine/notifications";
 import { UserTypeCreate } from '../../modules/login/types/UserTypeCreate';
+import { setAuthorizationToken } from '../functions/connections/auth';
+import { useGlobalContext } from './useGlobalContext';
 
 export const useRequests = () => {
   const navigator = useNavigate();
+  const { setUser } = useGlobalContext();
 
   const getRequest = async <T>(url: string): Promise<T | undefined> => {
     try {
@@ -44,8 +47,9 @@ export const useRequests = () => {
     try {
       const resp = await connectionAPIPost<AuthType>(URL_AUTH, body);
 
-      // setAuthorizationToken(resp.accessToken);
-      console.log(resp)
+      setAuthorizationToken(resp.accessToken);
+      setUser(resp.user);
+
       notifications.show({
         title: 'User Logged.',
         message: '',

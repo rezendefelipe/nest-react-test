@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
+import { UserType } from '../../modules/login/types/UserType';
 
 interface GlobalData {
     modalStatus?: boolean;
-    searchText?: string
+    searchText?: string;
+    user?: UserType
 }
 
 interface GlobalContextProps {
@@ -42,10 +44,19 @@ export const useGlobalContext = () => {
     });
   };
 
+  const setUser = (user: UserType) => {
+    setglobalData({
+      ...globalData,
+      user: user
+    });
+  };
+
   return {
     setModalStatus,
     setSearchText,
+    setUser,
     searchText: globalData?.searchText,
     modalStatus: globalData?.modalStatus,
+    user: globalData?.user
   };
 };

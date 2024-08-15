@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Container, Group, Loader, ScrollArea, Space, Table } from "@mantine/core";
+import { ActionIcon, Button, Container, Group, Loader, ScrollArea, Space, Table, Text } from "@mantine/core";
 
 import { URL_CHANNELS } from "../../../shared/constants/urls.ts";
 import { useRequests } from "../../../shared/hooks/useRequests.ts";
@@ -22,7 +22,7 @@ const ChannelScreen = () => {
   const [editValues, setEditValues] = useState<{}>();
   const [scrolled, setScrolled] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { setModalStatus, searchText } = useGlobalContext();
+  const { setModalStatus, searchText, user } = useGlobalContext();
   const navigator = useNavigate();
 
   const handleEditChannel = (id: number, name: string, description?: string) => {
@@ -98,6 +98,8 @@ const ChannelScreen = () => {
         <FormCreateChannel editValues={editValues} getData={getData} />
       </CustomModal>
       <Container>
+        { user ? <Text size="lg">Hello, {user?.name} :)</Text> : "" }
+        <Space h="xl" />
         <Button variant="filled" data-testid="btn-create" onClick={openModalCreateChannel}>Create Channel</Button>
         <Space h="xl" />
         <>

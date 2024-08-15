@@ -12,10 +12,13 @@ import classes from '../styles/login.module.css';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
+import { unsetAuthorizationToken } from '../../../shared/functions/connections/auth';
 
 const LoginScreen = () => {
   const { authRequest } = useRequests();
   const navigator = useNavigate();
+
+  unsetAuthorizationToken()
 
   const form = useForm({
     mode: 'uncontrolled',
