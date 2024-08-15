@@ -36,6 +36,7 @@ const ViewChannel = () => {
                     variant="light"
                     leftSection={<IconArrowLeft size={14} />}
                     onClick={handleGoBack}
+                    data-testid="back"
                 >
                     Go Back
                 </Button>
@@ -51,7 +52,7 @@ const ViewChannel = () => {
                                         Name: {data ? <>{data.name}</> : null }
                                     </Text>
                                     <div>
-                                        <Text fz="xs" c="dimmed">
+                                        <Text fz="xs" c="dimmed" data-testid="description">
                                             Description: {data ? <>{data.description}</> : null }
                                         </Text>
                                     </div>

@@ -27,7 +27,7 @@ const DeleteChannelComponent = ({...props}) => {
                     <Button variant="filled" onClick={() => confirmDelete()} color="red">Confirm</Button>
                 </Group>
             </Modal>
-            <ActionIcon variant="light" color="red" aria-label="Settings" onClick={open}>
+            <ActionIcon variant="light" color="red" aria-label="Settings" onClick={open} data-testid={`btn-delete-${props.name.split(' ').join('-')}`}>
                 <IconTrashFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
         </>

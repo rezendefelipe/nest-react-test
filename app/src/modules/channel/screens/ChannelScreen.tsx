@@ -48,11 +48,11 @@ const ChannelScreen = () => {
         <Table.Td>{element.description}</Table.Td>
         <Table.Td>
           <Group justify="center">
-            <DeleteComponent id={element.id} getData={getData} />
+            <DeleteComponent id={element.id} name={element.name} getData={getData} />
             <ActionIcon variant="light" aria-label="Settings" onClick={() => handleEditChannel(element.id, element.name, element.description)}>
               <IconEdit style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
-            <ActionIcon variant="light" color="yellow" aria-label="Settings" onClick={() => handleViewChannel(element.id)}>
+            <ActionIcon variant="light" color="yellow" aria-label="Settings" data-testid={`btn-view-${element.name.split(' ').join('-')}`} onClick={() => handleViewChannel(element.id)}>
               <IconEyeShare style={{ width: '70%', height: '70%' }} stroke={1.5} />
             </ActionIcon>
           </Group>
@@ -98,7 +98,7 @@ const ChannelScreen = () => {
         <FormCreateChannel editValues={editValues} getData={getData} />
       </CustomModal>
       <Container>
-        <Button variant="filled" onClick={openModalCreateChannel}>Create Channel</Button>
+        <Button variant="filled" data-testid="btn-create" onClick={openModalCreateChannel}>Create Channel</Button>
         <Space h="xl" />
         <>
           {
