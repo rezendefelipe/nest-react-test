@@ -7,11 +7,13 @@ import { HeaderComponent } from './shared/components/header';
 import { Notifications } from '@mantine/notifications';
 import { loginRoutes } from './modules/login/routes';
 import { createUserRoutes } from './modules/createUser/routes';
+import { secretRoutes } from './modules/secretPage/routes';
 
 const router: RemixRouter = createBrowserRouter([
   ...channelScreenRoutes,
   ...loginRoutes,
-  ...createUserRoutes
+  ...createUserRoutes,
+  ...secretRoutes
 ]);
 
 const theme = createTheme({
