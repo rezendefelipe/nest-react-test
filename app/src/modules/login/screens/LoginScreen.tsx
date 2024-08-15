@@ -30,8 +30,8 @@ const LoginScreen = () => {
         password: (value) => {
           const valid = false
   
-          if (!value.length) return 'Name is required';
-          if (value.length < 2) return 'Name is too short';
+          if (!value.length) return 'Password is required';
+          if (value.length < 2) return 'Password is too short';
   
           return valid;
         },
