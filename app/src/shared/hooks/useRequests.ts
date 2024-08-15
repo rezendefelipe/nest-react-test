@@ -3,7 +3,6 @@ import { URL_AUTH, URL_USER } from '../constants/urls';
 import { connectionAPIDelete, connectionAPIGet, connectionAPIPost, connectionAPIPut } from '../functions/connections/connectionAPI';
 import { useNavigate } from 'react-router-dom';
 import { notifications } from "@mantine/notifications";
-import { UserTypeCreate } from '../../modules/login/types/UserTypeCreate';
 import { setAuthorizationToken } from '../functions/connections/auth';
 import { useGlobalContext } from './useGlobalContext';
 
@@ -66,16 +65,14 @@ export const useRequests = () => {
 
   const createUserRequest = async (body: unknown): Promise<void> => {
     try {
-      const resp = await connectionAPIPost<UserTypeCreate>(URL_USER, body);
+      await connectionAPIPost<AuthType>(URL_USER, body);
 
-      // setAuthorizationToken(resp.accessToken);
-      console.log(resp)
       notifications.show({
-        title: 'User Logged.',
+        title: 'User created.',
         message: '',
       })
-      navigator('/');
-    } catch (error: unknown) {
+      navigator('/login');
+    } catch (error) {
       notifications.show({
         title: 'Error on Create User.',
         message: '',
